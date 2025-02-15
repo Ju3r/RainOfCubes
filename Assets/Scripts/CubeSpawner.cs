@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -9,8 +8,6 @@ public class CubeSpawner : MonoBehaviour
 
     [SerializeField] private Vector3 _startAreaPosition;
     [SerializeField] private Vector3 _endAreaPosition;
-
-    [SerializeField] private List<Cube> _cubes = new List<Cube>();
 
     private float _delay = 1f;
     private bool _isSpawning = true;
@@ -37,25 +34,9 @@ public class CubeSpawner : MonoBehaviour
         StartCoroutine(Spawning());
     }
 
-    private void OnEnable()
-    {
-        foreach (Cube cube in _cubes)
-        {
-            Subscription(cube);
-        }
-    }
-
-    private void OnDisable()
-    {
-        foreach (Cube cube in _cubes)
-        {
-            Unsubscription(cube);
-        }
-    }
-
     private void Destroy(Cube cube)
     {
-       _cubes.Remove(cube);
+        Unsubscription(cube);
 
         Destroy((Object)cube);
     }
@@ -64,7 +45,6 @@ public class CubeSpawner : MonoBehaviour
     {
         Cube cube = Instantiate(_prefab, GetRandomPosition(), Quaternion.identity);
 
-        _cubes.Add(cube);
         Subscription(cube);
 
         return cube;

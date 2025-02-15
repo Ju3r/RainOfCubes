@@ -972,7 +972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3afd07f187bd5c94983e5f805fc575c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 9104348352082242922, guid: 31ab6a9bfc40c374eacd89161b7faa97, type: 3}
+  _prefab: {fileID: 6580179715286437372, guid: 31ab6a9bfc40c374eacd89161b7faa97, type: 3}
   _startAreaPosition: {x: -10, y: 80, z: -10}
   _endAreaPosition: {x: 10, y: 80, z: 10}
   _cubes: []
@@ -1335,50 +1335,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -34.427, y: 0, z: 0}
---- !u!1 &1965733689
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1965733691}
-  - component: {fileID: 1965733690}
-  m_Layer: 0
-  m_Name: CubeColorChanger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1965733690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1965733689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53a1ad498de1f3c489cead7d4803ef29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1965733691
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1965733689}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1393,4 +1349,3 @@ SceneRoots:
   - {fileID: 1065180506}
   - {fileID: 912209060}
   - {fileID: 1162988919}
-  - {fileID: 1965733691}

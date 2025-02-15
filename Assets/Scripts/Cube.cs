@@ -41,18 +41,13 @@ public class Cube : MonoBehaviour
 
         SetColor(Color.white);
     }
-
-    public Rigidbody GetRigidbody()
-    {
-        return _rigidbody;
-    }
     
     public CubeDestroyer GetDestroyer()
     {
         return _destroyer;
     }
 
-    public void SetColor(Color color)
+    private void SetColor(Color color)
     {
         _colorChanger.SetColor(color);
     }
@@ -67,7 +62,7 @@ public class Cube : MonoBehaviour
         transform.rotation = Quaternion.identity;
     }
 
-    public void ResetPlatformCollided()
+    private void ResetPlatformCollided()
     {
         _isPlatformCollided = false;
     }
