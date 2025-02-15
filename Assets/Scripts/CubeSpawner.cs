@@ -5,7 +5,7 @@ using UnityEngine.Pool;
 
 public class CubeSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject _prefab;
+    [SerializeField] private Cube _prefab;
 
     [SerializeField] private Vector3 _startAreaPosition;
     [SerializeField] private Vector3 _endAreaPosition;
@@ -15,42 +15,21 @@ public class CubeSpawner : MonoBehaviour
     private float _delay = 1f;
     private bool _isSpawning = true;
 
-    private ObjectPool<GameObject> _pool;
+    private ObjectPool<Cube> _pool;
 
     private int _poolCapacity = 5;
     private int _poolMaxSize = 5;
 
     private void Awake()
     {
-        _pool = new ObjectPool<GameObject>(
+        _pool = new ObjectPool<Cube>(
             createFunc: () => Spawn(),
-            actionOnGet: (obj) => ActionOnGet(obj),
-            actionOnRelease: (obj) => obj.gameObject.SetActive(false),
-            actionOnDestroy: (obj) => ActionOnDestroy(obj),
+            actionOnGet: (cube) => ModifyOnGet(cube),
+            actionOnRelease: (cube) => cube.Deactivate(),
+            actionOnDestroy: (cube) => Destroy(cube),
             collectionCheck: true,
             defaultCapacity: _poolCapacity,
             maxSize: _poolMaxSize);
-    }
-
-    private void ActionOnDestroy(GameObject obj)
-    {
-        if (obj.TryGetComponent(out Cube cube))
-            _cubes.Remove(cube);
-
-        Destroy(obj.gameObject);
-    }
-
-    private GameObject Spawn()
-    {
-        GameObject gameObject = Instantiate(_prefab, GetRandomPosition(), Quaternion.identity);
-
-        if (gameObject.TryGetComponent(out Cube cube))
-        {
-            _cubes.Add(cube);
-            Subscription(cube);
-        }
-
-        return gameObject;
     }
 
     private void Start()
@@ -72,6 +51,23 @@ public class CubeSpawner : MonoBehaviour
         {
             Unsubscription(cube);
         }
+    }
+
+    private void Destroy(Cube cube)
+    {
+       _cubes.Remove(cube);
+
+        Destroy((Object)cube);
+    }
+
+    private Cube Spawn()
+    {
+        Cube cube = Instantiate(_prefab, GetRandomPosition(), Quaternion.identity);
+
+        _cubes.Add(cube);
+        Subscription(cube);
+
+        return cube;
     }
 
     private void Subscription(Cube cube)
@@ -96,25 +92,15 @@ public class CubeSpawner : MonoBehaviour
 
     private void ReleaseInPool(Cube cube)
     {
-        _pool.Release(cube.gameObject);
+        _pool.Release(cube);
     }
 
-    private void ActionOnGet(GameObject obj)
+    private void ModifyOnGet(Cube cube)
     {
-        obj.transform.position = GetRandomPosition();
-        obj.transform.rotation = Quaternion.identity;
-
-        if (obj.TryGetComponent(out Cube cube))
-        {
-            cube.ResetPlatformCollided();
-
-            cube.GetRigidbody().velocity = Vector3.zero;
-            cube.GetRigidbody().angularVelocity = Vector3.zero;
-
-            cube.SetColor(Color.white);
-        }
-
-        obj.gameObject.SetActive(true);
+        cube.Init();
+        cube.SetPosition(GetRandomPosition());
+        cube.SetRotationToZero();
+        cube.Activate();
     }
 
     private Vector3 GetRandomPosition()

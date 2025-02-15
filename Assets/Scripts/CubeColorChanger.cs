@@ -1,11 +1,17 @@
 using UnityEngine;
 
+[RequireComponent (typeof(MeshRenderer))]
 public class CubeColorChanger : MonoBehaviour
 {
-    public Cube ChangeColor(Cube cube)
-    {
-        Cube modifiedCube = cube;
+    private MeshRenderer _meshRenderer;
 
+    private void Awake()
+    {
+        _meshRenderer = GetComponent<MeshRenderer>();
+    }
+
+    public void ChangeColor()
+    {
         float minRandomColorNumber = 0f;
         float maxRandomColorNumber = 1f;
 
@@ -15,8 +21,12 @@ public class CubeColorChanger : MonoBehaviour
                                 Random.Range(minRandomColorNumber, maxRandomColorNumber)
                                 );
 
-        cube.SetColor(randomColor);
+        SetColor(randomColor);
+    }
 
-        return cube;
+    public void SetColor(Color color)
+    {
+        if (_meshRenderer != null)
+            _meshRenderer.material.color = color;
     }
 }

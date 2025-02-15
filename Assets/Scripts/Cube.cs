@@ -1,10 +1,8 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(CubeCollisionHandler), typeof(CubeColorChanger), typeof(CubeDestroyer))]
 public class Cube : MonoBehaviour
 {
-    private MeshRenderer _meshRenderer;
     private Rigidbody _rigidbody;
 
     private CubeCollisionHandler _collisionHandler;
@@ -15,9 +13,8 @@ public class Cube : MonoBehaviour
 
     private void Awake()
     {
-        _destroyer = FindFirstObjectByType<CubeDestroyer>();
+        _destroyer = GetComponent<CubeDestroyer>();
 
-        _meshRenderer = GetComponent<MeshRenderer>();
         _rigidbody = GetComponent<Rigidbody>();
 
         _collisionHandler = GetComponent<CubeCollisionHandler>();
@@ -27,40 +24,22 @@ public class Cube : MonoBehaviour
 
     private void OnEnable()
     {
-        _collisionHandler.CollidedPlatform += CollidedPlatform;
+        _collisionHandler.CollidedPlatform += OnCollidedPlatform;
     }
 
     private void OnDisable()
     {
-        _collisionHandler.CollidedPlatform -= CollidedPlatform;
+        _collisionHandler.CollidedPlatform -= OnCollidedPlatform;
     }
 
-    public void SetColor(Color color)
+    public void Init()
     {
-        if (_meshRenderer != null)
-            _meshRenderer.material.color = color;
-    }
+        ResetPlatformCollided();
 
-    public void SetDefaultColor(Color color)
-    {
-        if (_meshRenderer != null)
-            _meshRenderer.material.color = color;
-    }
+        _rigidbody.velocity = Vector3.zero;
+        _rigidbody.angularVelocity = Vector3.zero;
 
-    public void ResetPlatformCollided()
-    {
-        _isPlatformCollided = false;
-    }
-
-    private void CollidedPlatform()
-    {
-        if (_isPlatformCollided == false)
-        {
-            _colorChanger.ChangeColor(this);
-            _destroyer.StartDestroying(this);
-        }
-
-        _isPlatformCollided = true;
+        SetColor(Color.white);
     }
 
     public Rigidbody GetRigidbody()
@@ -71,5 +50,46 @@ public class Cube : MonoBehaviour
     public CubeDestroyer GetDestroyer()
     {
         return _destroyer;
+    }
+
+    public void SetColor(Color color)
+    {
+        _colorChanger.SetColor(color);
+    }
+
+    public void SetPosition(Vector3 position)
+    {
+        transform.position = position;
+    }
+
+    public void SetRotationToZero()
+    {
+        transform.rotation = Quaternion.identity;
+    }
+
+    public void ResetPlatformCollided()
+    {
+        _isPlatformCollided = false;
+    }
+
+    public void Activate()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Deactivate()
+    {
+        gameObject.SetActive(false);
+    }
+
+    private void OnCollidedPlatform()
+    {
+        if (_isPlatformCollided == false)
+        {
+            _colorChanger.ChangeColor();
+            _destroyer.StartDestroying(this);
+        }
+
+        _isPlatformCollided = true;
     }
 }

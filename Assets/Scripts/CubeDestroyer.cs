@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class CubeDestroyer : MonoBehaviour
 {
-    public event Action<Cube> Destroyed;
-
     private float _lifeTime;
 
     private float _minLifeTime = 2;
     private float _maxLifeTime = 7;
 
     private float _endTime = 0.1f;
+
+    public event Action<Cube> Destroyed;
     
     public void StartDestroying(Cube cube)
     {
